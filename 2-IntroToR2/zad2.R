@@ -10,9 +10,9 @@
 #------
 #ćw2
 #-----
-library(ggplot2)
-library(plotly)
+install.packages("emojifont")
+library(emojifont)
 
-# Pakiet 'plotly' służy do tworzenia interaktywnych wykresów.
-# Zainteresował mnie, ponieważ umożliwia tworzenie dynamicznych wizualizacji danych.
+# Pakiet 'emojifont' służy do tworzenia interaktywnych wykresów.
+# Zainteresował mnie, ponieważ umożliwia używanie emoji :)
 ###
