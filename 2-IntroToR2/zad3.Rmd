@@ -27,8 +27,10 @@ Test.
 ~~test~~
 
 ```{r}
+library(sass)
 print("UwU")
 library(ggplot2)
 library(emojifont)
 emoji("skull")
+
 ```
