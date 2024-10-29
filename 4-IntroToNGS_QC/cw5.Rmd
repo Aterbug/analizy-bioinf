@@ -1,0 +1,44 @@
+# ćw5
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE)) # ta linia kodu oszczędza czas i zasoby obliczeniowe
+    install.packages("BiocManager")
+```
+
+    
+```{r}
+BiocManager::install("GenomicFeatures")
+```
+
+
+```{r}
+BiocManager::install("AnnotationDbi")
+```
+
+
+```{r}
+BiocManager::install("ShortRead")
+```
+
+
+```{r}
+BiocManager::install("Biostrings")
+```
+
+
+```{r}
+install.packages("GenomeInfoDbData")
+```
+
+
+```{r}
+install.packages("Rtools")
+```
+
+```{r}
+library("GenomicFeatures")
+library("AnnotationDbi")
+library("ShortRead")
+library("Biostrings")
+```
+
