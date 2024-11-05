@@ -1,0 +1,49 @@
+## Kontrola jakości (QC) danych NGS z wykorzystaniem pakietów Bioconductor
+
+### Wczytywanie danych FASTQ do R
+
+```{r}
+library(ShortRead)
+fq_file<-"C:/Users/s207340/Downloads/SRR31220563.fastq.gz"
+fq_reads<-readFastq(fq_file)
+length(fq_reads)
+fq_reads[1:5]
+```
+
+### Generowanie raportu QC za pomocą ShortRead
+
+```{r}
+qa_results <- qa(fq_file, type = "fastq")
+report(qa_results, dest = "C:/Users/s207340/Documents/Analizy_bioinf_w_genomice/raporty")
+
+```
+
+------------------------------------------------------------------------
+
+### Analiza wyników kontroli jakości
+
+**Czy jakość baz spada na końcach odczytów?**
+
+-   tak
+
+**Czy odczyty mają jednolitą długość?**
+
+-   tak.
+
+**Czy występują biasy sekwencyjne?**
+
+-   tak. Powtórzone sekwencje guaniny 143 razy
+
+**Czy obecne są sekwencje adapterów?**
+
+-   Nie wykryto. Opublikowana sekwencja została już oczyszczona.
+
+
+```{r}
+BiocManager::install("Rqc")
+
+library(Rqc)
+```
+
+
+
