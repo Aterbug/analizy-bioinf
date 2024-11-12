@@ -1,0 +1,123 @@
+# Przycinanie odczytów na podstawie jakości
+
+'''{r}
+fq_reads1 <- readFastq("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_with_adapters.fq")
+> fq_reads2 <- readFastq("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_with_adapters.fq")
+> trimmed_reads1 <- trimTailw(fq_reads1, k = 2, a = "B", halfwidth = 1)
+> 
+> trimmed_reads2 <- trimTailw(fq_reads2, k = 2, a = "B", halfwidth = 1)
+'''
+
+długość 1 sekwencji
+309440
+długość przyciętej sekwencji 1
+284123
+
+długość 2 sekwencji
+309440
+długość przyciętej sekwencji 2
+273668
+
+W poleceniu 'width(trimmed_reads1) < width(fq_reads1)':
+  długość dłuższego obiektu nie jest wielokrotnością długości krótszego obiektu
+- sekwencje zostały przycięte
+
+
+# Filtracja odczytów o niskiej jakości
+
+
+'''{r}
+>  procent1<-length(trimmed_reads1)/length(fq_reads1)
+> print(procent1)
+'''
+0.9181845 - 91% sekwencji 1 pozostało, przycięto 9%
+
+'''{r}
+>  procent2<-length(trimmed_reads2)/length(fq_reads2)
+> print(procent2)
+'''
+0.8843976 - 88% sekwencji 2 pozostało, przycięto 12%
+
+'''{r}
+> length(trimmed_reads1)
+> length(filtered_reads1)      
+> length(trimmed_reads1)-length(filtered_reads1)  
+'''
+
+* 35558 pz usunięto po filtracji sekw1 (12,6%)
+* 50152 pz usunięto po filtracji sekw2 (18,3%)
+
+# Ponowna kontrola jakości po przycinaniu i filtracji
+ '''{r}
+> writeFastq(filtered_reads1, "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_processed.fq")
+> writeFastq(filtered_reads2, "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_processed.fq")
+'''
+Raporty:
+'''{r}
+> qa_results1 <- qa("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_with_adapters.fq", type = "fastq")
+> qa_results1_processed <- qa( "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_processed.fq", type = "fastq")
+ >report(qa_results1, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read1")
+> report(qa_results1_processed, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read1_processed")
+
+> qa_results2 <- qa("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_with_adapters.fq", type = "fastq")
+> qa_results2_processed <- qa( "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_processed.fq", type = "fastq")
+> report(qa_results2, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read2")
+> report(qa_results2_processed, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read2_processed")
+'''
+
+# Analiza rozkładu długości odczytów
+'''{r}
+   # Przed przycinaniem (odczyty forward)
+   hist(width(fq_reads1), breaks = 50, main = "Długość odczytów forward przed przycinaniem", xlab = "Długość (bp)")
+   
+   # Po przycinaniu (odczyty forward)
+   hist(width(filtered_reads1), breaks = 50, main = "Długość odczytów forward po przycinaniu", xlab = "Długość (bp)")
+   
+   # Przed przycinaniem (odczyty reverse)
+   hist(width(fq_reads2), breaks = 50, main = "Długość odczytów reverse przed przycinaniem", xlab = "Długość (bp)")
+   
+   # Po przycinaniu (odczyty forward)
+   hist(width(filtered_reads2), breaks = 50, main = "Długość odczytów reverse po przycinaniu", xlab = "Długość (bp)"
+'''
+
+długości przed i po przycięciu adapterów:
+
+length(filtered_reads1)
+[1] 248565
+length(trimmed_reads1)
+[1] 284123
+
+przycięto 35558 pz
+
+
+length(filtered_reads2)
+[1] 223516
+length(trimmed_reads2)
+[1] 273668
+
+ przycięto 50152 pz  
+
+Komunikat ostrzegawczy:
+W poleceniu 'width(filtered_reads2) < width(trimmed_reads2)':
+  długość dłuższego obiektu nie jest wielokrotnością długości krótszego obiektu
+- sekwencje zostały przycięte
+
+
+# Ponowna kontrola jakości po usunięciu adapterów
+
+'''{r}
+> writeFastq(filtered_reads1, "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_final.fq")
+> writeFastq(filtered_reads2, "C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_final.fq")
+'''
+stworzenie raportu:
+'''{r}
+> qa_results1_final <- qa("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated1_final.fq", type = "fastq")
+> report(qa_results1_final, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read1_final")
+> qa_results2_final <- qa("C:/Users/s207340/Documents/Analizy bioinf/ecoli_simulated2_final.fq", type = "fastq")
+> report(qa_results2_final, dest = "C:/Users/s207340/Documents/Analizy bioinf/QA_report_read2_final")
+'''
+
+
+# Dokumentacja i raportowanie wyników
+
+to nie w notatniku :)
